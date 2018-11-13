@@ -24,6 +24,8 @@ let playerCards = [];
 let dealerCards = [];
 let dealerCardString = '';
 let playerCardString = '';
+let dealerScore = 0;
+let playerScore = 0;
 
 // Functions
 
@@ -42,11 +44,11 @@ function createDeck() {
 }
 
 function shuffleDeck(deck) {
-    for (let shuffledDeck = 0; shuffledDeck < deck.length; shuffledDeck++) {
+    for (let i = 0; i < deck.length; i++) {
          let swapIdx = Math.trunc(Math.random() * deck.length);
          let tmp = deck[swapIdx];
-         deck[swapIdx] = deck[shuffledDeck];
-         deck[shuffledDeck] = tmp;
+         deck[swapIdx] = deck[i];
+         deck[i] = tmp;
     }
 }
 
@@ -55,7 +57,7 @@ function getNextCard() {
 }
 
 function getCardString(card) {
-    return card.value + ' of ' + card.suit
+    return card.value + ' of ' + card.suit + ' '
 }
 
 function showDealerCards(dealerCards) {
@@ -72,13 +74,52 @@ function showPlayerCards(playerCards) {
     return playerCardString;
 }
 
+function getCardNumericValue(card) {
+    switch(card.value) {
+        case 'Ace':
+            return 1;
+        case 'Two':
+            return 2;
+        case 'Three':
+            return 3;
+        case 'Four':
+            return 4;
+        case 'Five':
+            return 5;
+        case 'Six':
+            return 6;
+        case 'Seven':
+            return 7;
+        case 'Eight':
+            return 8;
+        case 'Nine':
+            return 9;
+        default:
+            return 10;
+    }
+}
+
+function getScore (cardArray) {
+    let score = 0;
+    let hasAce = false;
+    for (let i=0; i < cardArray.length; i++) {
+       let card = cardArray [i];
+       score += getCardNumericValue(card);
+       if (card.value === 'Ace') {
+           hasAce = true;
+       }
+    }
+    if (hasAce=true && score + 10 <= 21) {
+        return score + 10;
+    }
+    return score;
+}
+
 // Game code
 
 deck = createDeck();
 
 shuffleDeck(deck);
-
-console.log(deck.length);
 
 dealerCards = [getNextCard(), getNextCard()];
 
@@ -88,6 +129,4 @@ showDealerCards(dealerCards);
 
 showPlayerCards(playerCards);
 
-console.log(deck.length);
-
-console.log(dealerCardString, ' ', playerCardString);
+console.log('Dealer has: ', dealerCardString, ' ','You have: ', playerCardString);
