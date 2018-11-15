@@ -115,6 +115,11 @@ function getScore (cardArray) {
     return score;
 }
 
+function updateScore() {
+    dealerScore = getScore(dealerCards);
+    playerScore = getScore(playerCards);
+}
+
 // Game code
 
 deck = createDeck();
@@ -129,4 +134,11 @@ showDealerCards(dealerCards);
 
 showPlayerCards(playerCards);
 
-console.log('Dealer has: ', dealerCardString, ' ','You have: ', playerCardString);
+getScore(dealerCards);
+
+getScore(playerCards);
+
+updateScore();
+
+console.log('Dealer has: ', dealerCardString, ' - Points:', dealerScore, '\n',
+            'You have: ', playerCardString, ' - Points:', playerScore);
